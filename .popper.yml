@@ -14,5 +14,14 @@ pipelines:
     - post-run
     - validate
     - teardown
+  cloudlab-benchmarking:
+    envs:
+    - host
+    path: pipelines/cloudlab-benchmarking
+    stages:
+    - setup.sh
+    - run.sh
+    - teardown.sh
+
 popperized:
 - github/popperized
