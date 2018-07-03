@@ -3,6 +3,16 @@ metadata:
   license: CC-BY-4.0
   publication_type: article
   upload_type: publication
-pipelines: {}
+pipelines:
+  myexp:
+    envs:
+    - host
+    path: pipelines/myexp
+    stages:
+    - setup
+    - run
+    - post-run
+    - validate
+    - teardown
 popperized:
 - github/popperized
