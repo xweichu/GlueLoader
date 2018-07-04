@@ -20,7 +20,7 @@ ssh -p 22 $server_mon << 'EOF'
     sudo apt-get --assume-yes update;
     sudo apt-get --assume-yes install docker.io;
     sudo apt-get --assume-yes install vim;
-    ip_addr=$(ifconfig eth0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://');
+    ip_addr=$(ifconfig enp2s0f0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://');
     sudo docker run -d --net=host --name=mon -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -e MON_IP=$ip_addr -e CEPH_PUBLIC_NETWORK=$ip_addr/24 ceph/daemon mon;
     sudo docker run -d --net=host --name=osd1 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdb  ceph/daemon osd_ceph_disk;
     sudo docker run -d --net=host --name=osd2 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdc  ceph/daemon osd_ceph_disk;
@@ -51,7 +51,7 @@ scp ./ceph_keys/* $server_osd34:/var/lib/ceph/bootstrap-osd
 
 ssh -p 22 $server_osd34 << 'EOF'
     sudo docker run -d --net=host --name=osd3 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdb  ceph/daemon osd_ceph_disk;
-    sudo docker run -d --net=host --name=osd4 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdc  ceph/daemon osd_ceph_disk;
+    sudo docker run -d --net=host --name=osd4 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdf  ceph/daemon osd_ceph_disk;
     sudo docker run -d --net=host --name=osd10 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdd  ceph/daemon osd_ceph_disk;
     sudo docker run -d --net=host --name=osd14 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sde  ceph/daemon osd_ceph_disk;
 EOF
@@ -125,6 +125,8 @@ scp ./ceph_keys/* $client:/etc/ceph
 scp ./ceph_keys/* $client:/var/lib/ceph/bootstrap-osd
 
 ssh -p 22 $client << 'EOF'
-    sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -m $ip_addr:6789 /mnt/cephfs/
-    sudo ceph-fuse -c /etc/ceph/ceph.conf /mnt/cephfs
+    # sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -m $ip_addr:6789 /mnt/cephfs/
+    # sudo ceph-fuse -c /etc/ceph/ceph.conf /mnt/cephfs
+    # sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -m 192.168.0.5:6789 /mnt/cephfs
+    sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -c /etc/ceph/ceph.conf /mnt/cephfs
 EOF
