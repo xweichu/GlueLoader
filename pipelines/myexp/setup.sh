@@ -123,10 +123,13 @@ EOF
 
 scp ./ceph_keys/* $client:/etc/ceph
 scp ./ceph_keys/* $client:/var/lib/ceph/bootstrap-osd
+scp ~/Google\ Drive/Personal/Key/* $client:/users/xweichu/.ssh
 
 ssh -p 22 $client << 'EOF'
-    # sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -m $ip_addr:6789 /mnt/cephfs/
-    # sudo ceph-fuse -c /etc/ceph/ceph.conf /mnt/cephfs
-    # sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -m 192.168.0.5:6789 /mnt/cephfs
     sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -c /etc/ceph/ceph.conf /mnt/cephfs
+
+    eval "$(ssh-agent -s)"
+    ssh-add -k ~/.ssh/id_rsa
+    sudo chmod 777 /mnt/cephfs/
+    scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc/* /mnt/cephfs
 EOF
