@@ -127,9 +127,9 @@ scp ~/Google\ Drive/Personal/Key/* $client:/users/xweichu/.ssh
 
 ssh -p 22 $client << 'EOF'
     sudo ceph-fuse -k /etc/ceph/ceph.client.admin.keyring -c /etc/ceph/ceph.conf /mnt/cephfs
-
     eval "$(ssh-agent -s)"
     ssh-add -k ~/.ssh/id_rsa
     sudo chmod 777 /mnt/cephfs/
     scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc/* /mnt/cephfs
+    scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc_2/* /mnt/cephfs
 EOF
