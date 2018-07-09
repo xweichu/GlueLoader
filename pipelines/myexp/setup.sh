@@ -138,6 +138,5 @@ ssh -p 22 $client << 'EOF'
     sudo mkdir /mnt/cephfs/all_tar
     sudo chmod 777 /mnt/cephfs/all_tar/
     ls /mnt/cephfs/*.tar | xargs -i tar xf {} -C /mnt/cephfs/all_tar/
-    
 
 EOF
