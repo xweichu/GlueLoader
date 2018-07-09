@@ -113,6 +113,9 @@ ssh -p 22 $client << 'EOF'
     sudo apt-get --assume-yes install docker.io;
     sudo apt-get --assume-yes install vim;
     sudo apt-get --assume-yes install ceph-fuse;
+    sudo apt-get --assume-yes install fio
+    sudo apt-get --assume-yes install gnuplot
+    sudo apt-get --assume-yes install ceph-fs-common
     sudo mkdir -p /etc/ceph/
     sudo mkdir -p /var/lib/ceph/bootstrap-osd/
     sudo mkdir /mnt/cephfs/
@@ -132,4 +135,9 @@ ssh -p 22 $client << 'EOF'
     sudo chmod 777 /mnt/cephfs/
     scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc/* /mnt/cephfs
     scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc_2/* /mnt/cephfs
+    sudo mkdir /mnt/cephfs/all_tar
+    sudo chmod 777 /mnt/cephfs/all_tar/
+    ls /mnt/cephfs/*.tar | xargs -i tar xf {} -C /mnt/cephfs/all_tar/
+    
+
 EOF
