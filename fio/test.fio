@@ -1,0 +1,12 @@
+[global]
+ioengine=posixaio
+rw=readwrite
+size=1g
+directory=/Users/xweichu/Desktop/fio
+thread=1
+write_bw_log=write_bw_log.log
+write_iops_log=write_iops_log.log
+write_lat_log=write_lat_log.log
+per_job_logs=0/1
+
+[trivial-readwrite-1g]

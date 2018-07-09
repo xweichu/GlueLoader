@@ -1,0 +1,22 @@
+[mon.]
+	key = AQC/jDxbXoNLFBAAC2yUmJmyfBjBrOLUFDP7Mw==
+	caps mon = "allow *"
+[client.admin]
+	key = AQC/jDxbxhNZERAAQpuzlqeuMhXEI4psdCWY8g==
+	auid = 0
+	caps mds = "allow"
+	caps mgr = "allow *"
+	caps mon = "allow *"
+	caps osd = "allow *"
+[client.bootstrap-mds]
+	key = AQC/jDxbUo3OGRAAWXNm7zxVZeWP8nMXKwgTtA==
+	caps mon = "allow profile bootstrap-mds"
+[client.bootstrap-osd]
+	key = AQC/jDxb7w0QFxAASAF69OwqFYA5dXH1eJD5Xg==
+	caps mon = "allow profile bootstrap-osd"
+[client.bootstrap-rbd]
+	key = AQC/jDxbR9kJHxAAZFUR1MU7nNIT9D2I69oyxg==
+	caps mon = "allow profile bootstrap-rbd"
+[client.bootstrap-rgw]
+	key = AQC/jDxbSWaUHBAAEPpBMv6JbaXBv/4o8SZgrA==
+	caps mon = "allow profile bootstrap-rgw"

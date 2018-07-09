@@ -1,0 +1,3 @@
+[client.bootstrap-osd]
+	key = AQC/jDxb7w0QFxAASAF69OwqFYA5dXH1eJD5Xg==
+	caps mon = "allow profile bootstrap-osd"
