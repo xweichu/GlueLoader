@@ -12,6 +12,7 @@ import yt
 
 import os
 
+
 """Declare any extra link functions like this"""
 # @link_function(info='translates A to B', output_labels=['b'])
 # def a_to_b(a):
@@ -24,6 +25,32 @@ def is_jpeg(filename, **kwargs):
 def read_jpeg(file_name):
     im = imread(file_name)
     return Data(cube=im)
+
+
+def read_yt(dirname):
+    import yt
+    ds=yt.load(dirname)
+    v, c = ds.find_max("density")
+    sl = ds.slice(2, c[0])
+    return sl["index", "x"]
+
+@data_factory('YT_DS')
+def get_data(i):
+    client = Client('128.104.222.103:8786')
+    i = 0
+    ls = []
+    for symbol in os.listdir('/mnt/cephfs/all_tar/'):
+        dirname =  '/mnt/cephfs/all_tar/' + symbol
+        dirname = dirname.split(',')
+        #print(dirname)
+        data = client.submit(read_yt, dirname[0])
+        ls.append(data)
+        if i>5:
+            break
+        i = i+1
+    dc = DataCollection()
+    for item in ls:
+        dc.append(item.result())
 
 @data_factory('YT')
 def read_yt(i):
@@ -54,8 +81,12 @@ def read_yt2(i):
     # gdata.add_component(ad['boxlib', 'cell_volume'],"component_name_2")
     return sl["index", "x"]
 
-# @importer("Import from custom source")
-# def my_importer():
+@importer("Import from custom source")
+def my_importer():
+    import Tkinter
+    import tkMessageBox
+    tkMessageBox.showinfo("Title", "a Tk MessageBox")
+    return []
 #     while True:
 #         gdd = GlueDataDialog()
 #         try:
