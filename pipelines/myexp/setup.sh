@@ -2,7 +2,7 @@
 # [wf] execute setup stage
 
 # address of mon,mgr and osd1, osd2
-server_mon='xweichu@c240g1-031305.wisc.cloudlab.us'
+server_mon='xweichu@c240g1-031311.wisc.cloudlab.us'
 
 # address of osd_3 and osd_4
 server_osd34='xweichu@c240g1-031307.wisc.cloudlab.us'
@@ -14,7 +14,7 @@ server_osd56='xweichu@c240g1-031309.wisc.cloudlab.us'
 server_osd78='xweichu@c240g1-031313.wisc.cloudlab.us'
 
 # address of client
-client='xweichu@c240g1-031311.wisc.cloudlab.us'
+client='xweichu@c240g1-031305.wisc.cloudlab.us'
 
 ssh -p 22 $server_mon << 'EOF'
     sudo apt-get --assume-yes update;
@@ -92,7 +92,7 @@ scp ./ceph_keys/* $server_osd78:/var/lib/ceph/bootstrap-osd
 
 ssh -p 22 $server_osd78 << 'EOF'
     sudo docker run -d --net=host --name=osd7 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdb  ceph/daemon osd_ceph_disk;
-    sudo docker run -d --net=host --name=osd8 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdc  ceph/daemon osd_ceph_disk;
+    sudo docker run -d --net=host --name=osd8 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdf  ceph/daemon osd_ceph_disk;
     sudo docker run -d --net=host --name=osd12 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sdd  ceph/daemon osd_ceph_disk;
     sudo docker run -d --net=host --name=osd16 --privileged=true -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph -v /dev/:/dev/ -e OSD_DEVICE=/dev/sde  ceph/daemon osd_ceph_disk;
     sudo docker run -d --net=host --name=mds -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e CEPHS_CREAT=1 ceph/daemon mds
@@ -133,10 +133,10 @@ ssh -p 22 $client << 'EOF'
     eval "$(ssh-agent -s)"
     ssh-add -k ~/.ssh/id_rsa
     sudo chmod 777 /mnt/cephfs/
-    scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc/* /mnt/cephfs
-    scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc_2/* /mnt/cephfs
+    # scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc/* /mnt/cephfs
+    # scp cross@pulpo-dtn.ucsc.edu:/mnt/pulpos/cross/wdmerger_for_ucsc_2/* /mnt/cephfs
     sudo mkdir /mnt/cephfs/all_tar
     sudo chmod 777 /mnt/cephfs/all_tar/
-    ls /mnt/cephfs/*.tar | xargs -i tar xf {} -C /mnt/cephfs/all_tar/
+    # ls /mnt/cephfs/*.tar | xargs -i tar xf {} -C /mnt/cephfs/all_tar/
 
 EOF
